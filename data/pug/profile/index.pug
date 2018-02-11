@@ -1,0 +1,22 @@
+html
+	include ../_/head
+	body
+		include ../_/header
+		h1 Привет, #{profile.name}.
+		hr
+		h2 Подключенные аккаунты
+		each accounts, provider in profile.provided
+			div #{provider}
+				each item, user_id in accounts
+					p #{item.user.displayName} #{item.user.username}
+		h2 Группы
+		each group in profile_data.groups
+			div #{group}
+		h2 Доступы
+		each access, access_uid in profile_data.accesses
+			div #{access_uid}
+				form(class='azbn7__auth__form_auto' target='_blank' method='POST' action=access.target_url)
+					each field in access.fields
+						input(type='hidden' name=field.name value=field.value)
+					input(type='submit' value=access.title)
+		include ../_/footer
