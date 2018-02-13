@@ -1,2 +1,3 @@
 data/sessions/sessions.nedb
 data/json/*.json
+data/static/json/*.json

@@ -12,14 +12,14 @@ function _(app, azbn) {
 		
 		var _path = 'static' + req.path;
 		var _dir = path.dirname(_path);
-
+		
 		app.mkDataDir(_dir);
-
+		
 		//req.baseUrl
 		//req.originalUrl
 		app.saveJSON('static' + req.path, req.body);
-
-		res.redirect(302, req.path + '.json');
+		
+		res.redirect(302, req.path);//+ '.json'
 		
 	};
 }
