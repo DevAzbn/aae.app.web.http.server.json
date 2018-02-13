@@ -1,12 +1,38 @@
 'use strict';
 
+var randstr = function(l) {
+	l = l > 0 ? l : 36;
+	return (Math.random().toString(l).split('.'))[1];
+};
+
 var field_editor = {
 	
-	buildFieldMenu : function(field) {
+	buildFieldMenu : function(field, is_root) {
 		
 		var menu = $('<div/>', {
-			class : '__menu',
+			class : 'btn-group __menu',
+			role : 'group',
 		});
+		
+		var a_add = $('<a/>', {
+			class : 'btn btn-secondary btn-sm __btn-add',
+			html : 'Доб.',
+		});
+		
+		var a_remove = $('<a/>', {
+			class : 'btn btn-secondary btn-sm __btn-remove',
+			html : 'Уд.',
+		});
+		
+		a_add.appendTo(menu);
+		if(!is_root) {
+			a_remove.appendTo(menu);
+		} else {
+			a_remove
+				.empty()
+				.remove()
+			;
+		}
 		
 		menu.appendTo(field);
 		
@@ -24,46 +50,71 @@ var field_editor = {
 	
 	addField : function(cont) {
 		
-		var __name = prompt('Введите name поля', 'k');
+		var __name = prompt('Введите name поля', randstr());
 		
-		var field = $('<div/>', {
-			class : '__field',
-			'data-name' : __name,
-		});
-		
-		var field__item = $('<div/>', {
-			class : '__item',
-		});
-		
-		var field__input =  $('<input/>', {
-			class : '__input',
-			name : __name,
-			type : 'text',
-			placeholder : __name,
-			value : '',
-		});
-		
-		var field__fields = $('<div/>', {
-			class : '__fields',
-		});
-		
-		field__input.appendTo(field__item);
-		field__item.appendTo(field);
-		field__fields.appendTo(field);
-		
-		this.buildFieldMenu(field);
-		
-		field.appendTo(cont.children('.__fields'));
-		
-		cont.children('.__item')
-			.empty()
-			.remove()
-		;
+		if(__name != '') {
+			
+			var __cont = cont.closest('.__field');
+			var __prev_name = __cont.attr('data-name') || '';
+			
+			if(__prev_name != '') {
+				__name = __prev_name + '[' + __name + ']';
+			}
+			
+			var field = $('<div/>', {
+				class : '__field',
+				'data-name' : __name,
+			});
+			
+			var field__item = $('<div/>', {
+				class : 'form-group __item',
+			});
+			
+			var field__label = $('<label/>', {
+				class : '__label',
+				html : __name,
+			});
+			
+			var field__input =  $('<input/>', {
+				class : 'form-control __input',
+				name : __name,
+				type : 'text',
+				placeholder : 'Значение поля ' + __name,
+				value : '',
+			});
+			
+			var field__fields = $('<div/>', {
+				class : '__fields',
+			});
+			
+			field__label.appendTo(field__item);
+			field__input.appendTo(field__item);
+			field__item.appendTo(field);
+			field__fields.appendTo(field);
+			
+			this.buildFieldMenu(field);
+			
+			field.appendTo(cont.children('.__fields'));
+			
+			cont.children('.__item')
+				.find('.__input')
+					.empty()
+					.remove()
+			;
+			
+			field__input
+				.trigger('focus')
+			;
+			
+		}
 		
 	},
 	
 	removeField : function(field) {
-		
+		field
+			.empty()
+			.remove()
+		;
 	},
 	
 }
@@ -84,28 +135,48 @@ $(function() {
 		
 	});
 	
-	__body.find('.azbn7__form-action-change-input').trigger('blur.azbn7');
+	__body
+		.find('.azbn7__form-action-change-input')
+			.val(randstr())
+			.trigger('blur.azbn7')
+	;
 	
-	__body.on('dblclick.azbn7', 'form.azbn7__json-edit-form', null, function(){
+	/*
+	__body.on('dblclick.azbn7', '.__field', null, function(){
 		
-		field_editor.addField(__form);
+		field_editor.addField($(this));
+		
+	});
+	*/
+	
+	//field_editor.addField(__form.children('.__field').eq(0));
+	
+	__body.on('mouseover.azbn7', '.__field', null, function(){
+		
+		//field_editor.buildFieldMenu($(this));
 		
 	});
 	
-	
-	__body.on('mouseover.azbn7', 'form.azbn7__json-edit-form .__fields .__field', null, function(){
+	__body.on('mouseout.azbn7', '.__field', null, function(){
 		
-		field_editor.buildFieldMenu($(this));
-		
-	});
-	
-	__body.on('mouseout.azbn7', 'form.azbn7__json-edit-form .__fields .__field', null, function(){
-		
-		field_editor.destroyFieldMenu($(this));
+		//field_editor.destroyFieldMenu($(this));
 		
 	});
 	
+	__body.on('click.azbn7', '.__field .__menu .__btn-add', null, function(){
+		
+		field_editor.addField($(this).closest('.__field'));
+		
+	});
 	
-	//addField(__form);
+	__body.on('click.azbn7', '.__field .__menu .__btn-remove', null, function(){
+		
+		if(confirm('Удалить поле?')) {
+			field_editor.removeField($(this).closest('.__field'));
+		}
+		
+	});
+	
+	field_editor.buildFieldMenu(__form.children('.__field').eq(0), true);
 	
 });

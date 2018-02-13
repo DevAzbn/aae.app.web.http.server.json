@@ -1,0 +1,1 @@
+lessc -x style.less > style.css
