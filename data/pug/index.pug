@@ -2,9 +2,9 @@ html
 	include _/head
 	body
 		include _/header
-		div.container
+		div.container-fluid
 			div.row
-				div.col-12
+				div.col-8
 					div.form-group
 						label Путь до файла относительно /json/
 						input.form-control.azbn7__form-action-change-input(placeholder="Целевой файл" value="data")
@@ -16,4 +16,12 @@ html
 						div.form-group.azbn7__submit-container
 							input(type="submit")
 					pre.azbn7__json-viewer
+				div.col-4
+					form.azbn7__socket-io-form
+						div.form-group
+							textarea.form-control.azbn7__chat-texts
+						div.form-group
+							input.form-control.azbn7__chat-input(type="text")
+						div.form-group
+							button.btn.btn-success.azbn7__chat-btn Отправить
 		include _/footer

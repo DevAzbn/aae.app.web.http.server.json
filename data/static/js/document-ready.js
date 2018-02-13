@@ -1,5 +1,14 @@
 'use strict';
 
+/*
+sockets
+*/
+var wsport = 17003;
+/*
+/sockets
+*/
+
+
 var randstr = function(l) {
 	l = l > 0 ? l : 36;
 	return (Math.random().toString(l).split('.'))[1];// + '' + (new Date().getTime());
@@ -136,6 +145,7 @@ $(function() {
 	var __body = $(document.body);
 	
 	var __form = __body.find('form.azbn7__json-edit-form');
+	var __form_s = __body.find('form.azbn7__socket-io-form');
 	var __prefix = __form.attr('data-prefix') || '/json/';
 	var __pre = __body.find('.azbn7__json-viewer');
 	
@@ -212,5 +222,40 @@ $(function() {
 	});
 	
 	field_editor.buildFieldMenu(__form.children('.__field').eq(0), true);
+
+
+
+
+
+	var socket = io.connect('http://localhost:' + wsport);
+	var __chat_texts = __body.find('.azbn7__chat-texts');
+	var __chat_input = __body.find('.azbn7__chat-input');
+
+	socket.on('server.event', function(msg){
+		__chat_texts.val(__chat_texts.val() + msg.text + '\n');
+	});
+
+	socket.on('you.connect', function(userName){
+		__chat_texts.val(__chat_texts.val() + 'You\'r username => ' + userName + '\n');
+	});
+
+	socket.on('server.client.connect', function(userName){
+		__chat_texts.val(__chat_texts.val() + userName + ' connected!\n');
+	});
+
+	socket.on('message.text', function(msg, name){
+		__chat_texts.val(__chat_texts.val() + name + ' : '+ msg +'\n');
+	});
+
+	__body.on('submit.azbn7', '.azbn7__socket-io-form', function(event){
+		event.preventDefault();
+		var message = __chat_input.val();
+		socket.emit('message.text', message);
+		__chat_input
+			.val(null)
+			.trigger('click')
+		;
+	});
+
 	
 });

@@ -16,6 +16,7 @@ azbn.setMdl('config', require('./config/main'));
 
 azbn.mdl('config').port.http = argv.httpport || azbn.mdl('config').port.http || 3000;
 azbn.mdl('config').port.https = argv.httpsport || azbn.mdl('config').port.https || 3001;
+azbn.mdl('config').port.ws = argv.wsport || azbn.mdl('config').port.ws || 3002;
 
 
 var express = require('express');
@@ -76,6 +77,9 @@ azbn.mdl('express').use(express.static(azbn.mdl('config').path.static, {
 		res.set('x-timestamp' , Date.now());
 	},
 }));
+
+
+azbn.setMdl('io', require('socket.io')(azbn.mdl('config').port.ws));
 
 
 require(azbn.mdl('config').path.route + '/main.js')(app, azbn);

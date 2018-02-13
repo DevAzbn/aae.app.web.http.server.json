@@ -1,7 +1,8 @@
 {
 	"port" : {
 		"http" : 17001,
-		"https" : 17002
+		"https" : 17002,
+		"ws" : 17003
 	},
 	"path" : {
 		"static" : "./data/static",

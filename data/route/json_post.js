@@ -18,6 +18,11 @@ function _(app, azbn) {
 		//req.baseUrl
 		//req.originalUrl
 		app.saveJSON('.' + req.path, req.body);
+
+		azbn.mdl('io').sockets.emit('server.event', {
+			type : 'json.update',
+			text : 'Объект ' +req.path + ' был обновлен'
+		});
 		
 		res.append('Access-Control-Allow-Origin', '*');
 		
