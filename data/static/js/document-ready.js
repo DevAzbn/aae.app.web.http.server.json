@@ -2,7 +2,7 @@
 
 var randstr = function(l) {
 	l = l > 0 ? l : 36;
-	return (Math.random().toString(l).split('.'))[1] + '' + (new Date().getTime());
+	return (Math.random().toString(l).split('.'))[1];// + '' + (new Date().getTime());
 };
 
 var field_editor = {
@@ -61,9 +61,10 @@ var field_editor = {
 	
 	addField : function(cont) {
 		
-		var __name = prompt('Введите name поля', randstr());
+		var __name = prompt('Введите name поля', 'field_' + randstr());
 		
-		if(__name != '') {
+		//if(__name != '') {
+		if(1) {
 			
 			var __cont = cont.closest('.__field');
 			var __prev_name = __cont.attr('data-name') || '';
@@ -184,7 +185,11 @@ $(function() {
 	__body.on('click.azbn7', '.__field .__menu .__btn-remove', null, function(){
 		
 		if(confirm('Удалить поле?')) {
+			
 			field_editor.removeField($(this).closest('.__field'));
+			
+			__pre.html(JSON.stringify(__form.serializeObject(), null, '	'));
+			
 		}
 		
 	});
