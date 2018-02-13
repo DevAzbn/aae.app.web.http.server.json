@@ -1,3 +1,4 @@
 data/sessions/sessions.nedb
-data/nedb/*.nedb
+data/nedb/logs/logger/*.nedb
+data/nedb/logs/logger/**.nedb
 data/json/*.json
