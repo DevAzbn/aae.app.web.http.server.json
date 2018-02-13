@@ -19,6 +19,8 @@ function _(app, azbn) {
 		var q = req.query || {};
 		var data = app.loadJSON('static' + req.path);
 		
+		res.append('Access-Control-Allow-Origin', '*');
+		
 		if(q.format && q.format =='jsonp') {
 			
 			//?format=jsonp&callback=<function name>

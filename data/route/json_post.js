@@ -19,6 +19,8 @@ function _(app, azbn) {
 		//req.originalUrl
 		app.saveJSON('static' + req.path, req.body);
 		
+		res.append('Access-Control-Allow-Origin', '*');
+		
 		res.redirect(302, req.path);//+ '.json'
 		
 	};
