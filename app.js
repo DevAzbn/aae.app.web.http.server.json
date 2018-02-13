@@ -21,7 +21,7 @@ azbn.mdl('config').port.https = argv.httpsport || azbn.mdl('config').port.https 
 var express = require('express');
 azbn.setMdl('express', express());
 
-azbn.setMdl('passport', require('passport'));
+//azbn.setMdl('passport', require('passport'));
 
 azbn.mdl('express').set('trust proxy', 1);
 
@@ -29,7 +29,7 @@ azbn.mdl('express').set('trust proxy', 1);
 azbn.mdl('express').use(require('compression')());
 
 // логгер
-//azbn.mdl('express').use((new require(azbn.mdl('cfg').path.app + '/logger/default')(azbn)));
+//azbn.mdl('express').use((new require(azbn.mdl('config').path.route + '/logger.js')(app, azbn)));
 
 // боди-парсер
 var bodyParser = require('body-parser');
@@ -62,8 +62,8 @@ azbn.mdl('express').use(express_session({
 	}),
 }));
 
-azbn.mdl('express').use(azbn.mdl('passport').initialize());
-azbn.mdl('express').use(azbn.mdl('passport').session());
+//azbn.mdl('express').use(azbn.mdl('passport').initialize());
+//azbn.mdl('express').use(azbn.mdl('passport').session());
 
 // перепись метода
 azbn.mdl('express').use(require('method-override')('_method'));
@@ -113,7 +113,7 @@ azbn.mdl('https')
 */
 
 azbn.setMdl('http', azbn.mdl('express').listen(azbn.mdl('config').port.http, function() {
-	app.log.info('App listening on ports ' + azbn.mdl('config').port.http + ' and ' + azbn.mdl('config').port.htts);
+	app.log.info('App listening on ports ' + azbn.mdl('config').port.http + ' and ' + azbn.mdl('config').port.https);
 }));
 
 /*

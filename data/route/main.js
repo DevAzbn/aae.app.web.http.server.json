@@ -7,6 +7,7 @@ function _(app, azbn) {
 	azbn.mdl('express').set('views', azbn.mdl('config').path.pug);
 	azbn.mdl('express').set('view engine', 'pug');
 	
+	azbn.mdl('express').use((new require('./logger.js')(app, azbn)));
 	azbn.mdl('express').get('/', (new require('./index')(app, azbn)));
 	azbn.mdl('express').get('/json/*', (new require('./json_get')(app, azbn)));
 	azbn.mdl('express').post('/json/*', (new require('./json_post')(app, azbn)));

@@ -6,6 +6,7 @@
 	"path" : {
 		"static" : "./data/static",
 		"route" : "./data/route",
-		"pug" : "./data/pug"
+		"pug" : "./data/pug",
+		"nedb" : "./data/nedb"
 	}
 }

@@ -10,14 +10,14 @@ function _(app, azbn) {
 		
 		//var method = req.body.method || 'default';
 		
-		var _path = 'static' + req.path;
+		var _path = '.' + req.path;
 		var _dir = path.dirname(_path);
 		
 		app.mkDataDir(_dir);
 		
 		//req.baseUrl
 		//req.originalUrl
-		app.saveJSON('static' + req.path, req.body);
+		app.saveJSON('.' + req.path, req.body);
 		
 		res.append('Access-Control-Allow-Origin', '*');
 		

@@ -15,9 +15,11 @@ function _(app, azbn) {
 		req.params = in path
 		*/
 		
-		var _path = 'static' + req.path;
+		app.clearRequireCache(require);
+		
+		var _path = '.' + req.path;
 		var q = req.query || {};
-		var data = app.loadJSON('static' + req.path);
+		var data = app.loadJSON('.' + req.path);
 		
 		res.append('Access-Control-Allow-Origin', '*');
 		
