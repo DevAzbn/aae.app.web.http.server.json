@@ -2,7 +2,8 @@ html
 	include _/head
 	body
 		include _/header
-		form(action="/json/test/somedata" method="POST")
+		input.azbn7__form-action-change-input(placeholder="Целевой файл" value="data")
+		form.azbn7__json-edit-form(action="/json/" method="POST" data-prefix="/json/" )
 			input(type="text" name="k")
 			input(type="submit")
 		include _/footer
