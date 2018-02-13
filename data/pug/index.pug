@@ -3,7 +3,10 @@ html
 	body
 		include _/header
 		input.azbn7__form-action-change-input(placeholder="Целевой файл" value="data")
-		form.azbn7__json-edit-form(action="/json/" method="POST" data-prefix="/json/" )
-			input(type="text" name="k")
-			input(type="submit")
+		hr
+		form.azbn7__json-edit-form.__field(action="/json/" method="POST" data-prefix="/json/" )
+			div.__item
+			div.__fields
+			div.azbn7__submit-container
+				input(type="submit")
 		include _/footer
