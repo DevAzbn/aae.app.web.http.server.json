@@ -2,7 +2,7 @@
 
 var randstr = function(l) {
 	l = l > 0 ? l : 36;
-	return (Math.random().toString(l).split('.'))[1];
+	return (Math.random().toString(l).split('.'))[1] + '' + (new Date().getTime());
 };
 
 var field_editor = {
@@ -15,23 +15,34 @@ var field_editor = {
 		});
 		
 		var a_add = $('<a/>', {
-			class : 'btn btn-secondary btn-sm __btn-add',
+			class : 'btn btn-success btn-sm __btn-add',
 			html : 'Доб.',
 		});
 		
+		//var a_copy = $('<a/>', {
+		//	class : 'btn btn-primary btn-sm __btn-copy',
+		//	html : 'Дубл.',
+		//});
+		
 		var a_remove = $('<a/>', {
-			class : 'btn btn-secondary btn-sm __btn-remove',
+			class : 'btn btn-danger btn-sm __btn-remove',
 			html : 'Уд.',
 		});
 		
+		
 		a_add.appendTo(menu);
 		if(!is_root) {
+			//a_copy.appendTo(menu);
 			a_remove.appendTo(menu);
 		} else {
 			a_remove
 				.empty()
 				.remove()
 			;
+			//a_copy
+			//	.empty()
+			//	.remove()
+			//;
 		}
 		
 		menu.appendTo(field);
@@ -125,6 +136,7 @@ $(function() {
 	
 	var __form = __body.find('form.azbn7__json-edit-form');
 	var __prefix = __form.attr('data-prefix') || '/json/';
+	var __pre = __body.find('.azbn7__json-viewer');
 	
 	__body.on('keyup.azbn7 blur.azbn7', '.azbn7__form-action-change-input', null, function(){
 		
@@ -174,6 +186,23 @@ $(function() {
 		if(confirm('Удалить поле?')) {
 			field_editor.removeField($(this).closest('.__field'));
 		}
+		
+	});
+	
+	__body.on('click.azbn7', '.__field .__menu .__btn-copy', null, function(){
+		
+		var __field = $(this).closest('.__field');
+		
+		__field
+			.clone(true)
+				.insertAfter(__field)
+		;
+		
+	});
+	
+	__body.on('keyup.azbn7 blur.azbn7', '.__field .__item .__input', null, function(){
+		
+		__pre.html(JSON.stringify(__form.serializeObject(), null, '	'));
 		
 	});
 	
