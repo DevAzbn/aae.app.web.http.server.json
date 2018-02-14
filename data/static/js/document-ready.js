@@ -222,6 +222,33 @@ $(function() {
 	});
 	
 	field_editor.buildFieldMenu(__form.children('.__field').eq(0), true);
+	
+	__body.on('submit.azbn7', '.azbn7__json-edit-form', function(event){
+		event.preventDefault();
+		
+		var form = $(this);
+		var _action = form.attr('action') || '';
+		
+		$.post(_action, form.serialize(), function(data){
+			
+			console.dir(data);
+			
+			//window.location.reload();
+			
+			__body
+				.find('.azbn7__form-action-change-input')
+					.val(randstr())
+					.trigger('blur.azbn7')
+			;
+			
+			__form.children('.__field').children('.__fields').empty();
+			
+			__pre.html(JSON.stringify(__form.serializeObject(), null, '	'));
+			
+		});
+		
+	});
+	
 
 
 
