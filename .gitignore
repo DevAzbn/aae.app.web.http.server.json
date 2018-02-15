@@ -1,5 +1,5 @@
 data/sessions/sessions.nedb
-data/nedb/logs/logger/*.nedb
-data/nedb/logs/logger/**.nedb
+data/nedb/*.nedb
+data/nedb/**/*.nedb
 data/json/*.json
 data/json/**/*.json

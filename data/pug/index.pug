@@ -6,22 +6,10 @@ html
 			div.row
 				div.col-8
 					div.form-group
-						label Путь до файла относительно /json/
-						input.form-control.azbn7__form-action-change-input(placeholder="Целевой файл" value="data")
+						label Введите название папки относительно /json/
+						input.form-control.azbn7__list-change-input(placeholder="Путь до нужной папки" value="")
 					hr
-					form.azbn7__json-edit-form(action="/json/" method="POST" data-prefix="/json/" )
-						div.__field
-							div.__item
-							div.__fields
-						div.form-group.azbn7__submit-container
-							input(type="submit" value="Сохранить")
-					pre.azbn7__json-viewer
+					pre.azbn7__files-viewer
 				div.col-4
-					form.azbn7__socket-io-form
-						div.form-group
-							textarea.form-control.azbn7__chat-texts
-						div.form-group
-							input.form-control.azbn7__chat-input(type="text")
-						div.form-group
-							button.btn.btn-success.azbn7__chat-btn Отправить
+					include _/socket_chat
 		include _/footer

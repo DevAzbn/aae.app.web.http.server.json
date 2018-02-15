@@ -149,7 +149,7 @@ $(function() {
 	var __prefix = __form.attr('data-prefix') || '/json/';
 	var __pre = __body.find('.azbn7__json-viewer');
 	
-	__body.on('keyup.azbn7 blur.azbn7', '.azbn7__form-action-change-input', null, function(){
+	__body.on('keyup.azbn7 blur.azbn7', '.azbn7__form-action-change-input', null, function(event){
 		
 		var input = $(this);
 		var val = input.val();
@@ -244,6 +244,28 @@ $(function() {
 			__form.children('.__field').children('.__fields').empty();
 			
 			__pre.html(JSON.stringify(__form.serializeObject(), null, '	'));
+			
+		});
+		
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	__body.on('keyup.azbn7 blur.azbn7', '.azbn7__list-change-input', null, function(event){
+		
+		var input = $(this);
+		var val = input.val();
+		
+		$.get('/list/', {
+			path : val,
+		}, function(data){
+			
+			__body.find('.azbn7__files-viewer').html(JSON.stringify(data, null, '	'));
 			
 		});
 		

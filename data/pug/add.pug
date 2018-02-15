@@ -1,0 +1,21 @@
+html
+	include _/head
+	body
+		include _/header
+		div.container-fluid
+			div.row
+				div.col-8
+					div.form-group
+						label Путь до файла относительно /json/
+						input.form-control.azbn7__form-action-change-input(placeholder="Целевой файл" value="data")
+					hr
+					form.azbn7__json-edit-form(action="/json/" method="POST" data-prefix="/json/" )
+						div.__field
+							div.__item
+							div.__fields
+						div.form-group.azbn7__submit-container
+							input(type="submit" value="Сохранить")
+					pre.azbn7__json-viewer
+				div.col-4
+					include _/socket_chat
+		include _/footer

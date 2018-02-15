@@ -8,9 +8,13 @@ function _(app, azbn) {
 	azbn.mdl('express').set('view engine', 'pug');
 	
 	azbn.mdl('express').use((new require('./logger.js')(app, azbn)));
+	
 	azbn.mdl('express').get('/', (new require('./index')(app, azbn)));
-	azbn.mdl('express').get('/tree/', (new require('./tree')(app, azbn)));
+	azbn.mdl('express').get('/add/', (new require('./add')(app, azbn)));
+	
+	//azbn.mdl('express').get('/tree/', (new require('./tree')(app, azbn)));
 	azbn.mdl('express').get('/list/', (new require('./list')(app, azbn)));
+	
 	azbn.mdl('express').get('/json/*', (new require('./json_get')(app, azbn)));
 	azbn.mdl('express').post('/json/*', (new require('./json_post')(app, azbn)));
 

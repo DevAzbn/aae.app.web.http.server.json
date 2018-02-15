@@ -15,12 +15,15 @@ function _(app, azbn) {
 		var _res = [];
 		
 		azbn.mdl('fs/tree').list(_dir, function(err, results){
-
-			res.send(results.filter(function(item){
-				return /(.json)$/.test(item);
-			}).map(function(item){
-				return item.replace(new RegExp('(.json)$', 'ig'), '');
-			}));
+			
+			res.send({
+				error : err,
+				result : (results) ? results.filter(function(item){
+						return /(.json)$/.test(item);
+					}).map(function(item){
+						return item.replace(new RegExp('(.json)$', 'ig'), '');
+					}) : [],
+			});
 			
 		});
 		
