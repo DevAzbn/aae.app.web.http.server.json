@@ -68,9 +68,9 @@ var field_editor = {
 		
 	},
 	
-	addField : function(cont) {
+	addField : function(cont, _name, _value) {
 		
-		var __name = prompt('Введите name поля', 'field_' + randstr());
+		var __name = _name ? _name : prompt('Введите name поля', 'field_' + randstr());
 		
 		//if(__name != '') {
 		if(1) {
@@ -96,22 +96,16 @@ var field_editor = {
 				html : __name,
 			});
 			
-			var field__input =  $('<input/>', {
-				class : 'form-control __input',
-				name : __name,
-				type : 'text',
-				placeholder : 'Значение поля ' + __name,
-				value : '',
-			});
-			
 			var field__fields = $('<div/>', {
 				class : '__fields',
 			});
 			
 			field__label.appendTo(field__item);
-			field__input.appendTo(field__item);
+			//field__input.appendTo(field__item);
 			field__item.appendTo(field);
 			field__fields.appendTo(field);
+			
+			
 			
 			this.buildFieldMenu(field);
 			
@@ -123,9 +117,29 @@ var field_editor = {
 					.remove()
 			;
 			
-			field__input
-				.trigger('focus')
-			;
+			if(typeof _value == 'object' || typeof _value == 'array') {
+				
+				json_loader.__buildFields(field, _value);
+				
+			} else {
+				
+				var field__input =  $('<input/>', {
+					class : 'form-control __input',
+					name : __name,
+					type : 'text',
+					placeholder : 'Значение поля ' + __name,
+					value : _value ? _value : '',
+				});
+				
+				field__input.appendTo(field__item);
+				
+				field__input
+					.trigger('focus')
+				;
+				
+			}
+			
+			
 			
 		}
 		
@@ -139,6 +153,46 @@ var field_editor = {
 	},
 	
 }
+
+var json_loader = {
+	
+	objects : {
+		
+	},
+	
+	load : function(path, uid, cb) {
+		
+		$.getJSON('/json/' + path, function(o){
+			
+			json_loader.objects[uid] = o;
+			
+			cb(json_loader.objects[uid]);
+			
+		});
+		
+	},
+	
+	build : function(form, o) {
+		
+		json_loader.__buildFields(form.children('.__field'), o)
+		
+	},
+	
+	__buildFields : function(field, o) {
+		
+		if(typeof o == 'object' || typeof o == 'array') {
+			
+			for(var k in o) {
+				
+				field_editor.addField(field, k, o[k]);
+				
+			}
+			
+		}
+		
+	},
+	
+};
 
 $(function() {
 	
@@ -271,6 +325,22 @@ $(function() {
 		
 	});
 	
+	
+	
+	__body.on('click.azbn7', '.azbn7__json-load-btn', null, function(event){
+		event.preventDefault();
+		
+		var path = prompt('Введите путь к объекту относительно /json/', '');
+		
+		json_loader.load(path, 'default', function(o){
+			json_loader.build(__form, o);
+			$('.azbn7__form-action-change-input')
+				.val(path)
+				.trigger('blur.azbn7')
+			;
+		});
+		
+	});
 
 
 
