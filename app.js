@@ -29,6 +29,31 @@ azbn.mdl('express').set('trust proxy', 1);
 // компрессия
 azbn.mdl('express').use(require('compression')());
 
+//идентификация
+var basicAuth = require('express-basic-auth');
+azbn.mdl('express').use(basicAuth({
+	users : {
+		'json' : 'json',
+	},
+	challenge : true,
+	realm : '2E9uLkM9UUjFen7jDeO',
+	/*
+	unauthorizedResponse : function(req) {
+		return req.auth ? ('Credentials ' + req.auth.user + ':' + req.auth.password + ' rejected') : 'No credentials provided';
+	},
+	*/
+	/*
+	authorizer : function(username, password, cb){
+		if(1) {
+			return cb(null, true);
+		} else {
+			return cb(null, false);
+		}
+	},
+	*/
+	//authorizeAsync : true,
+}));
+
 // логгер
 //azbn.mdl('express').use((new require(azbn.mdl('config').path.route + '/logger.js')(app, azbn)));
 
